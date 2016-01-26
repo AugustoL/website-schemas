@@ -8,7 +8,14 @@ module.exports = function(db,mongoose) {
 		date : Date,
 		draft : Boolean,
 		bodyEs : String,
-		bodyEn : String
+		bodyEn : String,
+		comments : [{
+			id : mongoose.Types.ObjectId,
+			name : String,
+			text : String,
+			date : Date,
+			ip : String
+		}]
 	});
 	post.methods.create = function(){
 		this.titleEs = "";
@@ -19,7 +26,19 @@ module.exports = function(db,mongoose) {
 		this.draft = true;
 		this.bodyEs = "";
 		this.bodyEn = "";
-	}
+		this.comments = [];
+	};
+	post.methods.addComment = function(_name, _text, _ip){
+		if (!this.comments)
+			this.comments = [];
+		this.comments.push({
+			id : new mongoose.Types.ObjectId(),
+			name : _name,
+			text : _text,
+			date : new Date(),
+			ip : _ip
+		});
+	};
 	post.methods.edit = function(titleEs,titleEn,img,categories,bodyEs,bodyEn){
 		this.titleEs = titleEs;
 		this.titleEn = titleEn;
@@ -71,7 +90,7 @@ module.exports = function(db,mongoose) {
                 }
             });
         }
-	}
+	};
 
 	db.posts = db.model('posts', post);
 
