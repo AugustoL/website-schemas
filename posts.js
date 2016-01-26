@@ -10,7 +10,7 @@ module.exports = function(db,mongoose) {
 		bodyEs : String,
 		bodyEn : String,
 		comments : [{
-			id : mongoose.Types.ObjectId,
+			id : mongoose.Schema.Types.ObjectId,
 			name : String,
 			text : String,
 			date : Date,
